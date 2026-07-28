@@ -1,0 +1,98 @@
+<div class="editor-container">
+    <header class="editor-header">
+        <div class="title">ASM EDUCATOR <span class="version">| ASM-VM v1.0</span></div>
+    </header>
+    
+    <div class="editor-workspace">
+        <div class="panel code-panel">
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div class="tabs" style="display: flex; gap: 10px;">
+                    <button id="tab-highlevel" style="background: none; border: none; color: #fff; cursor: pointer; padding: 4px 8px; font-weight: bold; border-bottom: 2px solid #57a1ff;">Mini-Lang</button>
+                    <button id="tab-assembly" style="background: none; border: none; color: #888; cursor: pointer; padding: 4px 8px; font-weight: bold; border-bottom: 2px solid transparent;">Assembly</button>
+                </div>
+                <select id="example-select" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; padding: 4px 8px; font-family: inherit; font-size: 0.85em; cursor: pointer;">
+                    <option style="color: #000; background: #fff;" value="mini-hello">Mini-Lang: Hello</option>
+                    <option style="color: #000; background: #fff;" value="mini-gpu">Mini-Lang: VRAM Graphics</option>
+                    <option style="color: #000; background: #fff;" value="mini-os">Mini-Lang: BootROM OS</option>
+                    <option style="color: #000; background: #fff;" value="mini-fib">Mini-Lang: Fibonacci</option>
+                    <option disabled>──────────</option>
+                    <option style="color: #000; background: #fff;" value="hello">JASM: hello_world.jasm</option>
+                    <option style="color: #000; background: #fff;" value="fibonacci">JASM: fibonacci.jasm</option>
+                    <option style="color: #000; background: #fff;" value="hardware">JASM: hardware_test.jasm</option>
+                    <option style="color: #000; background: #fff;" value="display">JASM: ppu_test.jasm</option>
+                    <option style="color: #000; background: #fff;" value="gpu">JASM: gpu_demo.jasm</option>
+                    <option style="color: #000; background: #fff;" value="audio">JASM: audio_test.jasm</option>
+                    <option style="color: #000; background: #fff;" value="serial">JASM: serial_echo.jasm</option>
+                    <option style="color: #000; background: #fff;" value="disk">JASM: disk_test.jasm</option>
+                </select>
+            </div>
+            <div class="panel-body" style="position: relative;">
+                <textarea id="source-highlevel" spellcheck="false" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 15px; background: transparent; color: inherit; border: none; resize: none; font-family: 'Fira Code', 'Courier New', Courier, monospace; outline: none;">var a = 0;
+var b = 1;
+var target = 15;
+var counter = 0;
+
+while (counter < target) {
+    var temp = a + b;
+    a = b;
+    b = temp;
+    counter = counter + 1;
+}
+
+print(a);
+exit(0);</textarea>
+                <textarea id="source-code" spellcheck="false" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 15px; background: #1a1a1a; color: inherit; border: none; resize: none; font-family: 'Fira Code', 'Courier New', Courier, monospace; outline: none;">// Run "Compile" to generate Assembly...</textarea>
+            </div>
+            <div class="panel-footer actions">
+                <button id="btn-compile" class="btn btn-primary" style="background: #9b59b6;">Compile</button>
+                <button id="btn-build" class="btn btn-primary">Assemble</button>
+                <button id="btn-run" class="btn btn-success" disabled>Run</button>
+                <button id="btn-step" class="btn btn-secondary" disabled>Step</button>
+                <button id="btn-stop" class="btn btn-danger" disabled>Stop</button>
+                <button id="btn-reset" class="btn btn-ghost" disabled>Reset</button>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="panel display-panel">
+                <div class="panel-header">
+                    <span class="panel-title">DISPLAY OUTPUT</span>
+                </div>
+                <div class="panel-body" style="display: flex; justify-content: center; align-items: center; background: #000; padding: 10px;">
+                    <canvas id="vm-display" width="256" height="256" style="border: 2px solid #333; background: #111; image-rendering: pixelated; max-width: 100%;"></canvas>
+                </div>
+            </div>
+
+            <div class="panel hexdump-panel">
+                <div class="panel-header">
+                    <span class="panel-title">LIVE HEX DUMP</span>
+                </div>
+                <div class="panel-body">
+                    <pre id="hexdump-view" class="code-view">Run 'Build' to compile JASM into Bytecode.</pre>
+                </div>
+            </div>
+
+            <div class="panel state-panel">
+                <div class="panel-header">
+                    <span class="panel-title">VM STATE</span>
+                </div>
+                <div class="panel-body">
+                    <div class="section-title">Registers</div>
+                    <div class="registers-grid" id="registers-view">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel console-panel">
+                <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="panel-title">CONSOLE OUTPUT</span>
+                    <input type="text" id="serial-input" placeholder="Serial Input..." style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; padding: 2px 6px; font-family: 'Fira Code', monospace; font-size: 0.85em; width: 150px; outline: none;" autocomplete="off">
+                </div>
+                <div class="panel-body">
+                    <pre id="console-view" class="code-view">System ready.</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

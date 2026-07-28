@@ -1,0 +1,13 @@
+{
+    "name": "PackageTemplate",
+    "vendor": "Package_Template",
+    "version": {
+        "major": 0,
+        "minor": 0,
+        "build": 0,
+        "patch": 0
+    },
+    "requires": {},
+    "main": "main.js",
+    "styles": []
+}
